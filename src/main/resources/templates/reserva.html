@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reservar Maquinaria</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-container">
+        <h2>Reservar Maquinaria</h2>
+        <form th:action="@{/reserva/nueva}" method="post">
+            <div>
+                <label for="maquinariaId">Selecciona Maquinaria:</label>
+                <select id="maquinariaId" name="maquinariaId" required>
+                    <option th:each="maq : ${maquinarias}" th:value="${maq.id}" th:text="${maq.tipo} + ' - ' + ${maq.ubicacion}"></option>
+                </select>
+            </div>
+            <div>
+                <label for="fecha_reserva">Fecha de reserva:</label>
+                <input type="date" id="fecha_reserva" name="fecha_reserva" required />
+            </div>
+            <div>
+                <button type="submit">Reservar</button>
+            </div>
+        </form>
+        <div th:if="${exito}">
+            <p class="exito" th:text="${exito}"></p>
+        </div>
+    </div>
+</body>
+</html>

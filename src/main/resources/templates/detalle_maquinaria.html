@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle de Maquinaria</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-container">
+        <h2>Detalle de Maquinaria</h2>
+        <div th:if="${maquinaria != null}">
+            <p><strong>Tipo:</strong> <span th:text="${maquinaria.tipo}"></span></p>
+            <p><strong>Ubicación:</strong> <span th:text="${maquinaria.ubicacion}"></span></p>
+            <p><strong>Fecha disponible:</strong> <span th:text="${maquinaria.fecha_disponible}"></span></p>
+            <p><strong>Precio:</strong> <span th:text="${maquinaria.precio}"></span></p>
+            <p><strong>Marca:</strong> <span th:text="${maquinaria.marca}"></span></p>
+            <p><strong>Año de fabricación:</strong> <span th:text="${maquinaria.anio_fabricacion}"></span></p>
+            <p><strong>Capacidad:</strong> <span th:text="${maquinaria.capacidad}"></span></p>
+            <p><strong>Mantenciones realizadas:</strong> <span th:text="${maquinaria.mantenciones}"></span></p>
+            <p><strong>Condiciones de arriendo:</strong> <span th:text="${maquinaria.condiciones}"></span></p>
+            <p><strong>Medios de pago:</strong> <span th:text="${maquinaria.medios_pago}"></span></p>
+        </div>
+        <div th:if="${maquinaria == null}">
+            <p class="error">Maquinaria no encontrada.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Búsqueda de Maquinaria</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-container">
+        <h2>Búsqueda de Maquinaria</h2>
+        <form th:action="@{/maquinaria/buscar}" method="get">
+            <div>
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" name="tipo" />
+            </div>
+            <div>
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" id="ubicacion" name="ubicacion" />
+            </div>
+            <div>
+                <label for="fecha">Fecha disponible:</label>
+                <input type="date" id="fecha" name="fecha" />
+            </div>
+            <div>
+                <label for="precio">Precio máximo:</label>
+                <input type="number" id="precio" name="precio" step="0.01" />
+            </div>
+            <div>
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+        <h3>Resultados</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Tipo</th>
+                    <th>Ubicación</th>
+                    <th>Fecha disponible</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="maq : ${maquinarias}">
+                    <td th:text="${maq.tipo}"></td>
+                    <td th:text="${maq.ubicacion}"></td>
+                    <td th:text="${maq.fecha_disponible}"></td>
+                    <td th:text="${maq.precio}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

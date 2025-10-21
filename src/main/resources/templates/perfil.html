@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-container">
+        <h2>Mi Perfil</h2>
+        <form th:action="@{/perfil}" method="post">
+            <div>
+                <label for="direccion">Dirección:</label>
+                <input type="text" id="direccion" name="direccion" th:value="${usuario.direccion}" />
+            </div>
+            <div>
+                <label for="telefono">Teléfono:</label>
+                <input type="text" id="telefono" name="telefono" th:value="${usuario.telefono}" />
+            </div>
+            <div>
+                <label for="cultivos">Cultivos:</label>
+                <input type="text" id="cultivos" name="cultivos" th:value="${usuario.cultivos}" />
+            </div>
+            <div>
+                <button type="submit">Actualizar perfil</button>
+            </div>
+        </form>
+        <div th:if="${exito}">
+            <p class="exito" th:text="${exito}"></p>
+        </div>
+    </div>
+</body>
+</html>
