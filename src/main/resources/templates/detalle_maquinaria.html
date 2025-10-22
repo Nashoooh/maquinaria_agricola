@@ -23,6 +23,10 @@
         <div th:if="${maquinaria == null}">
             <p class="error">Maquinaria no encontrada.</p>
         </div>
+        <a href="/home" class="btn">Volver al Home</a>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="btn">Cerrar sesión</button>
+        </form>
     </div>
 </body>
 </html>

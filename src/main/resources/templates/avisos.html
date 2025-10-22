@@ -26,6 +26,12 @@
         <div th:if="${exito}">
             <p class="exito" th:text="${exito}"></p>
         </div>
+        <div class="btn-container">
+            <a href="/home" class="btn">Volver al Home</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn">Cerrar sesión</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

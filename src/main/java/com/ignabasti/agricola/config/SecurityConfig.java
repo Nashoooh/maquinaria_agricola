@@ -24,9 +24,12 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .defaultSuccessUrl("/home", true) // Redirige siempre a /home tras login
                 .permitAll()
             )
-            .logout(logout -> logout.permitAll());
+            .logout(logout -> logout
+                .logoutSuccessUrl("/inicio")
+                .permitAll());
         return http.build();
     }
 
@@ -35,8 +38,4 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    @Bean
-    public UserDetailsService userDetailsService() {
-        return usuarioDetailsService;
-    }
 }

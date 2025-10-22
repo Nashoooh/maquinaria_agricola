@@ -48,6 +48,12 @@
                 </tr>
             </tbody>
         </table>
+        <div class="button-container">
+            <a href="/home" class="btn">Volver al Home</a>
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="btn">Cerrar sesión</button>
+            </form>
+        </div>
     </div>
 </body>
 </html>

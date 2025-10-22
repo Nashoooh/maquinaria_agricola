@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Principal - Agricola</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+    <div class="main-container">
+        <h1>Bienvenido al Panel Principal</h1>
+        <nav>
+            <ul>
+                <li><a href="/perfil">Perfil de Usuario</a></li>
+                <li><a href="/avisos">Publicar Avisos</a></li>
+                <li><a href="/reserva">Reservar Maquinaria</a></li>
+                <li><a href="/maquinaria/buscar">Buscar Maquinaria</a></li>
+                <li><a href="/detalle-maquinaria">Detalle de Maquinaria</a></li>
+            </ul>
+        </nav>
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="btn">Cerrar sesión</button>
+        </form>
+    </div>
+</body>
+</html>
