@@ -24,14 +24,14 @@ public class ReservaController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/reserva/nueva")
+    @GetMapping("/maquinaria/reserva")
     public String mostrarFormularioReserva(Model model) {
         List<Maquinaria> maquinarias = maquinariaRepository.findAll();
         model.addAttribute("maquinarias", maquinarias);
-        return "reserva";
+        return "maquinaria_reserva";
     }
 
-    @PostMapping("/reserva/nueva")
+    @PostMapping("/maquinaria/reserva")
     public String reservarMaquinaria(Authentication auth,
                                     @RequestParam Integer maquinariaId,
                                     @RequestParam String fecha_reserva,
@@ -49,6 +49,6 @@ public class ReservaController {
         }
         List<Maquinaria> maquinarias = maquinariaRepository.findAll();
         model.addAttribute("maquinarias", maquinarias);
-        return "reserva";
+        return "maquinaria_reserva";
     }
 }

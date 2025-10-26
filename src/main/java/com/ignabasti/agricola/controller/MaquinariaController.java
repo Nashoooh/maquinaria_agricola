@@ -35,6 +35,6 @@ public class MaquinariaController {
             maquinarias.removeIf(m -> m.getPrecio() > precio);
         }
         model.addAttribute("maquinarias", maquinarias);
-        return "buscar_maquinaria";
+        return "maquinaria_buscar";
     }
 }

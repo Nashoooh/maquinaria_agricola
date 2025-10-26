@@ -17,6 +17,6 @@ public class DetalleMaquinariaController {
     public String verDetalle(@PathVariable Integer id, Model model) {
         Maquinaria maquinaria = maquinariaRepository.findById(id).orElse(null);
         model.addAttribute("maquinaria", maquinaria);
-        return "detalle_maquinaria";
+        return "maquinaria_detalle";
     }
 }

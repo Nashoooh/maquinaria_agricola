@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Registro de Usuario</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/registro.css}" />
 </head>
 <body>
     <div class="main-container">
@@ -25,8 +26,8 @@
                 <button type="submit">Registrarse</button>
             </div>
         </form>
-        <a href="/login" class="btn">¿Ya tienes cuenta? Inicia sesión</a>
-        <a href="/inicio" class="btn">Volver al inicio</a>
+        <a href="/login">¿Ya tienes cuenta? Inicia sesión</a>
+        <a href="/inicio">Volver al inicio</a>
         <div th:if="${error}">
             <p class="error" th:text="${error}"></p>
         </div>

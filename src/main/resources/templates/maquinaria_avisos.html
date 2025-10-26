@@ -2,35 +2,36 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Reservar Maquinaria</title>
+    <title>Publicar Aviso de Maquinaria</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/maquinaria_avisos.css}" />
 </head>
 <body>
     <div class="main-container">
-        <h2>Reservar Maquinaria</h2>
-        <form th:action="@{/reserva/nueva}" method="post">
+        <h2>Publicar Aviso de Maquinaria</h2>
+        <form th:action="@{/maquinaria/avisos}" method="post">
             <div>
                 <label for="maquinariaId">Selecciona Maquinaria:</label>
                 <select id="maquinariaId" name="maquinariaId" required>
                     <option th:each="maq : ${maquinarias}" th:value="${maq.id}" th:text="${maq.tipo} + ' - ' + ${maq.ubicacion}"></option>
                 </select>
             </div>
-            <div>
-                <label for="fecha_reserva">Fecha de reserva:</label>
-                <input type="date" id="fecha_reserva" name="fecha_reserva" required />
+            <div class="check-group">
+                <label>¿Aviso destacado?</label>
+                <input type="checkbox" id="destacado" name="destacado" />
             </div>
             <div>
-                <button type="submit">Reservar</button>
+                <button type="submit">Publicar Aviso</button>
             </div>
         </form>
         <div th:if="${exito}">
             <p class="exito" th:text="${exito}"></p>
         </div>
-        <div>
-            <a href="/home" class="btn">Volver al Home</a>
-            <form th:action="@{/logout}" method="post" style="display:inline;">
+        <div class="btn-container">
+            <a href="/home">Volver al Home</a>
+            <!-- <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="btn">Cerrar sesión</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </body>

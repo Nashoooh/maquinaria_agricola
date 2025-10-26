@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Mi Perfil</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/perfil.css}" />
 </head>
 <body>
     <div class="main-container">
@@ -29,10 +30,10 @@
             <p class="exito" th:text="${exito}"></p>
         </div>
         <div>
-            <a href="/home" class="btn">Volver al Home</a>
-            <form th:action="@{/logout}" method="post" style="display:inline;">
+            <a href="/home">Volver al Home</a>
+            <!-- <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="btn">Cerrar sesión</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </body>

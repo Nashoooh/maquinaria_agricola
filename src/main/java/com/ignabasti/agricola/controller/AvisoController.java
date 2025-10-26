@@ -24,14 +24,14 @@ public class AvisoController {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @GetMapping("/avisos/nuevo")
+    @GetMapping("/maquinaria/avisos")
     public String mostrarFormularioAviso(Authentication auth, Model model) {
         List<Maquinaria> maquinarias = maquinariaRepository.findAll();
         model.addAttribute("maquinarias", maquinarias);
-        return "avisos";
+        return "maquinaria_avisos";
     }
 
-    @PostMapping("/avisos/nuevo")
+    @PostMapping("/maquinaria/avisos")
     public String publicarAviso(Authentication auth,
                                 @RequestParam Integer maquinariaId,
                                 @RequestParam(required = false) Boolean destacado,
@@ -50,6 +50,6 @@ public class AvisoController {
         }
         List<Maquinaria> maquinarias = maquinariaRepository.findAll();
         model.addAttribute("maquinarias", maquinarias);
-        return "avisos";
+        return "maquinaria_avisos";
     }
 }

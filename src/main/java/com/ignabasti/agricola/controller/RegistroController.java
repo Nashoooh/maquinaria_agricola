@@ -19,7 +19,7 @@ public class RegistroController {
         return "registro";
     }
 
-    @PostMapping("/registro")
+    @PostMapping("/maquinaria/registro")
     public String registrarUsuario(@RequestParam String nombre,
                                    @RequestParam String correo,
                                    @RequestParam String contrasena,
@@ -34,6 +34,6 @@ public class RegistroController {
         usuario.setContrasena(contrasena);
         usuarioService.registrarUsuario(usuario);
         model.addAttribute("exito", "Usuario registrado correctamente. Ahora puedes iniciar sesión.");
-        return "registro";
+        return "maquinaria_registro";
     }
 }

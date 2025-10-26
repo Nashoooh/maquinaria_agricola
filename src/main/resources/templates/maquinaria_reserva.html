@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Publicar Aviso de Maquinaria</title>
+    <title>Reservar Maquinaria</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/maquinaria_reserva.css}" />
 </head>
 <body>
     <div class="main-container">
-        <h2>Publicar Aviso de Maquinaria</h2>
-        <form th:action="@{/avisos/nuevo}" method="post">
+        <h2>Reservar Maquinaria</h2>
+        <form th:action="@{/maquinaria/reserva}" method="post">
             <div>
                 <label for="maquinariaId">Selecciona Maquinaria:</label>
                 <select id="maquinariaId" name="maquinariaId" required>
@@ -16,21 +17,21 @@
                 </select>
             </div>
             <div>
-                <label for="destacado">¿Aviso destacado?</label>
-                <input type="checkbox" id="destacado" name="destacado" />
+                <label for="fecha_reserva">Fecha de reserva:</label>
+                <input type="date" id="fecha_reserva" name="fecha_reserva" required />
             </div>
             <div>
-                <button type="submit">Publicar Aviso</button>
+                <button type="submit">Reservar</button>
             </div>
         </form>
         <div th:if="${exito}">
             <p class="exito" th:text="${exito}"></p>
         </div>
-        <div class="btn-container">
-            <a href="/home" class="btn">Volver al Home</a>
-            <form th:action="@{/logout}" method="post" style="display:inline;">
+        <div>
+            <a href="/home">Volver al Home</a>
+            <!-- <form th:action="@{/logout}" method="post" style="display:inline;">
                 <button type="submit" class="btn">Cerrar sesión</button>
-            </form>
+            </form> -->
         </div>
     </div>
 </body>

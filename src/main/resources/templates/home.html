@@ -4,17 +4,18 @@
     <meta charset="UTF-8">
     <title>Panel Principal - Agricola</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
 </head>
 <body>
     <div class="main-container">
         <h1>Bienvenido al Panel Principal</h1>
         <nav>
-            <ul>
-                <li><a href="/perfil">Perfil de Usuario</a></li>
-                <li><a href="/avisos">Publicar Avisos</a></li>
-                <li><a href="/reserva">Reservar Maquinaria</a></li>
-                <li><a href="/maquinaria/buscar">Buscar Maquinaria</a></li>
-                <li><a href="/detalle-maquinaria">Detalle de Maquinaria</a></li>
+            <ul class="nav-list">
+                <li><a href="/perfil" class="btn-link">Perfil de Usuario</a></li>
+                <li><a href="/maquinaria/avisos" class="btn-link">Publicar Avisos</a></li>
+                <li><a href="/maquinaria/reserva" class="btn-link">Reservar Maquinaria</a></li>
+                <li><a href="/maquinaria/buscar" class="btn-link">Buscar Maquinaria</a></li>
+                <li><a href="/maquinaria/detalle/0" class="btn-link">Detalle de Maquinaria</a></li>
             </ul>
         </nav>
         <form th:action="@{/logout}" method="post" style="display:inline;">
