@@ -41,18 +41,18 @@ http://localhost:8080
 
 ## 🔓 Páginas públicas
 
-/inicio	Información sobre agricultura, eventos, fechas de cosechas, publicidad y avisos.
-/registro	Formulario de registro de usuarios.
-/login	Formulario de inicio de sesión.
-/maquinaria/buscar	Búsqueda de maquinaria disponible.
+- /inicio	Información sobre agricultura, eventos, fechas de cosechas, publicidad y avisos.
+- /registro	Formulario de registro de usuarios.
+- /login	Formulario de inicio de sesión.
+- /maquinaria/buscar	Búsqueda de maquinaria disponible.
 
 ## 🔒 Páginas privadas (requieren autenticación)
 
-/home	Panel principal del usuario con enlaces a funcionalidades privadas.
-/perfil	Gestión del perfil del usuario (dirección, teléfono, cultivos).
-/maquinaria/avisos	Publicar avisos de arriendo de maquinaria.
-/maquinaria/reserva	Reservar maquinaria disponible.
-/maquinaria/detalle/{id}	Visualización de detalles de una maquinaria específica.
+- /home	Panel principal del usuario con enlaces a funcionalidades privadas.
+- /perfil	Gestión del perfil del usuario (dirección, teléfono, cultivos).
+- /maquinaria/avisos	Publicar avisos de arriendo de maquinaria.
+- /maquinaria/reserva	Reservar maquinaria disponible.
+- /maquinaria/detalle/{id}	Visualización de detalles de una maquinaria específica.
 
 ---
 
