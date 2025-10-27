@@ -19,7 +19,7 @@ public class RegistroController {
         return "registro";
     }
 
-    @PostMapping("/maquinaria/registro")
+    @PostMapping("/registro")
     public String registrarUsuario(@RequestParam String nombre,
                                    @RequestParam String correo,
                                    @RequestParam String contrasena,
