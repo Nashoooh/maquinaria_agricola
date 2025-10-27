@@ -26,8 +26,8 @@ Desarrollada con **Spring Boot, Spring Security, Thymeleaf y MySQL**.
 
 ## 🔧 Configuración del proyecto
 
-Crear un archivo `.env` en la raíz del proyecto con las credenciales de la base de datos:
-El archivo .env está en .gitignore para proteger tus credenciales, este se envia por separado
+- Crear un archivo `.env` en la raíz del proyecto con las credenciales de la base de datos:
+- El archivo .env está en .gitignore para proteger las credenciales, este se envia por separado
 
 ---
 
