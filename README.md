@@ -33,8 +33,8 @@ Desarrollada con **Spring Boot, Spring Security, Thymeleaf y MySQL**.
 
 ## 🐳 Construcción y ejecución con Docker
 
-docker build -t agricola-grupo11 .
-docker run -p 8080:8080 --env-file .env agricola-grupo11
+- docker build -t agricola-grupo11 .
+- docker run -p 8080:8080 --env-file .env agricola-grupo11
 http://localhost:8080
 
 ---
@@ -58,10 +58,10 @@ http://localhost:8080
 
 ## 📦 Comandos útiles
 
---Construir JAR
+- Construir JAR
 mvn clean package -DskipTests
 
---Reiniciar contenedor
+- Reiniciar contenedor
 docker stop <nombre_contenedor>
 docker rm <nombre_contenedor>
 docker run -p 8080:8080 --env-file .env agricola-grupo11
