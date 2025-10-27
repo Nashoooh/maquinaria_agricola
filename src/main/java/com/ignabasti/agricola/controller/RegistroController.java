@@ -19,11 +19,11 @@ public class RegistroController {
         return "registro";
     }
 
-    @PostMapping("/maquinaria/registro")
-    public String registrarUsuario(@RequestParam String nombre,
-                                   @RequestParam String correo,
-                                   @RequestParam String contrasena,
-                                   Model model) {
+    @PostMapping("/registro")
+    public String registrarUsuarioDesdeRegistro(@RequestParam String nombre,
+                                                @RequestParam String correo,
+                                                @RequestParam String contrasena,
+                                                Model model) {
         if (usuarioService.existePorCorreo(correo)) {
             model.addAttribute("error", "El correo ya está registrado.");
             return "registro";
@@ -34,6 +34,6 @@ public class RegistroController {
         usuario.setContrasena(contrasena);
         usuarioService.registrarUsuario(usuario);
         model.addAttribute("exito", "Usuario registrado correctamente. Ahora puedes iniciar sesión.");
-        return "maquinaria_registro";
+        return "registro";
     }
 }
