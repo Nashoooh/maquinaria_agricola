@@ -5,39 +5,42 @@
     <title>Detalle de Maquinaria</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/maquinaria_detalle.css}" />
-    <style>
-        .detalle-table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        .detalle-table th, .detalle-table td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-        .detalle-table th { background: #f0f0f0; }
-        .buscador { margin-bottom: 10px; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/maquinaria_buscar.css}" />
 </head>
 <body>
     <div class="main-container">
         <h2>Detalle de Maquinaria</h2>
-        <input type="text" id="buscador" class="buscador" placeholder="Buscar maquinaria..." onkeyup="filtrarMaquinarias()" />
-        <select id="maquinariaSelect" onchange="mostrarDetalle()">
-            <option value="">Seleccione una maquinaria</option>
-            <th:block th:if="${maquinarias != null}" th:each="maq : ${maquinarias}">
-                <option th:value="${maq.id}" th:text="${maq.tipo + ' - ' + maq.marca + ' (' + maq.ubicacion + ')'}"></option>
-            </th:block>
-        </select>
-        <button onclick="limpiarSeleccion()">Limpiar selección</button>
-        <div id="detalleContainer" style="display:none;">
-            <table class="detalle-table">
-                <tr><th>Tipo</th><td id="tipo"></td></tr>
-                <tr><th>Ubicación</th><td id="ubicacion"></td></tr>
-                <tr><th>Fecha disponible</th><td id="fecha_disponible"></td></tr>
-                <tr><th>Precio</th><td id="precio"></td></tr>
-                <tr><th>Marca</th><td id="marca"></td></tr>
-                <tr><th>Año de fabricación</th><td id="anio_fabricacion"></td></tr>
-                <tr><th>Capacidad</th><td id="capacidad"></td></tr>
-                <tr><th>Mantenciones</th><td id="mantenciones"></td></tr>
-                <tr><th>Condiciones</th><td id="condiciones"></td></tr>
-                <tr><th>Medios de pago</th><td id="medios_pago"></td></tr>
-            </table>
+        <div class="buscador-bar" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:24px; justify-content:center;">
+            <input type="text" id="buscador" class="styled-input buscador" placeholder="Buscar maquinaria..." onkeyup="filtrarMaquinarias()" />
+            <select id="maquinariaSelect" class="styled-select" onchange="mostrarDetalle()">
+                <option value="">Seleccione una maquinaria</option>
+                <th:block th:if="${maquinarias != null}" th:each="maq : ${maquinarias}">
+                    <option th:value="${maq.id}" th:text="${maq.tipo + ' - ' + maq.marca + ' (' + maq.ubicacion + ')'}"></option>
+                </th:block>
+            </select>
+            <button onclick="limpiarSeleccion()" class="btn styled-btn">Limpiar selección</button>
         </div>
-        <a href="/home">Volver al Home</a>
+        <div id="detalleContainer" style="display:none;">
+            <div class="card-table-wrapper">
+                <table class="detalle-table vertical-table" style="width:100%; margin-top:0;">
+                    <tbody>
+                        <tr><th>Tipo</th><td id="tipo"></td></tr>
+                        <tr><th>Ubicación</th><td id="ubicacion"></td></tr>
+                        <tr><th>Fecha disponible</th><td id="fecha_disponible"></td></tr>
+                        <tr><th>Precio</th><td id="precio"></td></tr>
+                        <tr><th>Marca</th><td id="marca"></td></tr>
+                        <tr><th>Año de fabricación</th><td id="anio_fabricacion"></td></tr>
+                        <tr><th>Capacidad</th><td id="capacidad"></td></tr>
+                        <tr><th>Mantenciones</th><td id="mantenciones"></td></tr>
+                        <tr><th>Condiciones</th><td id="condiciones"></td></tr>
+                        <tr><th>Medios de pago</th><td id="medios_pago"></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="button-container" style="margin-top:30px;">
+            <a href="/home" class="btn-link">Volver al Home</a>
+        </div>
     </div>
     <script th:inline="javascript">
         let maquinarias = /*[[${maquinariasJson}]]*/ [];
