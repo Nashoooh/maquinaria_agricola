@@ -2,6 +2,8 @@ package com.ignabasti.agricola.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "maquinaria")
@@ -22,12 +24,15 @@ public class Maquinaria {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonBackReference
     private Usuario usuario;
 
     @OneToMany(mappedBy = "maquinaria")
+    @JsonManagedReference
     private List<Aviso> avisos;
 
     @OneToMany(mappedBy = "maquinaria")
+    @JsonManagedReference
     private List<Reserva> reservas;
 
     // Getters y setters
