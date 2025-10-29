@@ -62,12 +62,16 @@
 
 .main-container input[type="text"],
 .main-container input[type="date"],
-.main-container select {
+.main-container select,
+.main-container input[type="number"],
+.styled-number {
     width: 100%;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
     box-sizing: border-box;
+    font-size: 1rem;
+    background: #fff;
 }
 
 .check-group{

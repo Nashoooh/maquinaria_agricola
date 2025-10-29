@@ -10,27 +10,49 @@
     <div class="main-container">
         <h2>Registrar Maquinaria</h2>
         <form th:action="@{/maquinaria/registrar}" method="post">
-            <label for="tipo">Tipo:</label>
-            <input type="text" id="tipo" name="tipo" required><br>
-            <label for="marca">Marca:</label>
-            <input type="text" id="marca" name="marca" required><br>
-            <label for="ubicacion">Ubicación:</label>
-            <input type="text" id="ubicacion" name="ubicacion" required><br>
-            <label for="fecha_disponible">Fecha disponible:</label>
-            <input type="date" id="fecha_disponible" name="fecha_disponible" required><br>
-            <label for="precio">Precio:</label>
-            <input type="number" id="precio" name="precio" step="0.01" required><br>
-            <label for="anio_fabricacion">Año de fabricación:</label>
-            <input type="number" id="anio_fabricacion" name="anio_fabricacion" required><br>
-            <label for="capacidad">Capacidad:</label>
-            <input type="text" id="capacidad" name="capacidad"><br>
-            <label for="mantenciones">Mantenciones:</label>
-            <input type="text" id="mantenciones" name="mantenciones"><br>
-            <label for="condiciones">Condiciones:</label>
-            <input type="text" id="condiciones" name="condiciones"><br>
-            <label for="medios_pago">Medios de pago:</label>
-            <input type="text" id="medios_pago" name="medios_pago"><br>
-            <button type="submit" class="btn">Registrar</button>
+            <div>
+                <label for="tipo">Tipo:</label>
+                <input type="text" id="tipo" name="tipo" required class="styled-input" />
+            </div>
+            <div>
+                <label for="marca">Marca:</label>
+                <input type="text" id="marca" name="marca" required class="styled-input" />
+            </div>
+            <div>
+                <label for="ubicacion">Ubicación:</label>
+                <input type="text" id="ubicacion" name="ubicacion" required class="styled-input" />
+            </div>
+            <div>
+                <label for="fecha_disponible">Fecha disponible:</label>
+                <input type="date" id="fecha_disponible" name="fecha_disponible" required class="styled-input" />
+            </div>
+            <div>
+                <label for="precio">Precio:</label>
+                <input type="number" id="precio" name="precio" min="1" step="1" required class="styled-input styled-number" />
+            </div>
+            <div>
+                <label for="anio_fabricacion">Año de fabricación:</label>
+                <input type="number" id="anio_fabricacion" name="anio_fabricacion" min="1901" max="2099" required class="styled-input styled-number" />
+            </div>
+            <div>
+                <label for="capacidad">Capacidad:</label>
+                <input type="text" id="capacidad" name="capacidad" class="styled-input" />
+            </div>
+            <div>
+                <label for="mantenciones">Mantenciones:</label>
+                <input type="text" id="mantenciones" name="mantenciones" class="styled-input" />
+            </div>
+            <div>
+                <label for="condiciones">Condiciones:</label>
+                <input type="text" id="condiciones" name="condiciones" class="styled-input" />
+            </div>
+            <div>
+                <label for="medios_pago">Medios de pago:</label>
+                <input type="text" id="medios_pago" name="medios_pago" class="styled-input" />
+            </div>
+            <div>
+                <button type="submit" class="btn">Registrar</button>
+            </div>
         </form>
         <a href="/home">Volver al Home</a>
     </div>
