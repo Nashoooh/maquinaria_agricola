@@ -25,7 +25,7 @@ public class MaquinariaController {
     public String buscarMaquinaria(@RequestParam(required = false) String tipo,
                                    @RequestParam(required = false) String ubicacion,
                                    @RequestParam(required = false) String fecha,
-                                   @RequestParam(required = false) Double precio,
+                                   @RequestParam(required = false) Integer precio,
                                    Model model) {
         List<Maquinaria> maquinarias = maquinariaRepository.findAll();
         // Filtros simples en memoria (puedes optimizar con queries en el repo)
@@ -56,7 +56,7 @@ public class MaquinariaController {
             @org.springframework.web.bind.annotation.RequestParam String marca,
             @org.springframework.web.bind.annotation.RequestParam String ubicacion,
             @org.springframework.web.bind.annotation.RequestParam java.sql.Date fecha_disponible,
-            @org.springframework.web.bind.annotation.RequestParam Double precio,
+            @org.springframework.web.bind.annotation.RequestParam Integer precio,
             @org.springframework.web.bind.annotation.RequestParam Integer anio_fabricacion,
             @org.springframework.web.bind.annotation.RequestParam String capacidad,
             @org.springframework.web.bind.annotation.RequestParam String mantenciones,

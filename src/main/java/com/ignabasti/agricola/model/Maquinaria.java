@@ -14,7 +14,7 @@ public class Maquinaria {
     private String tipo;
     private String ubicacion;
     private java.sql.Date fecha_disponible;
-    private Double precio;
+    private Integer precio;
     private String marca;
     private Integer anio_fabricacion;
     private String capacidad;
@@ -68,11 +68,11 @@ public class Maquinaria {
         this.fecha_disponible = fecha_disponible;
     }
 
-    public Double getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 

@@ -59,7 +59,7 @@
             if (maq) {
                 document.getElementById('tipo').textContent = maq.tipo;
                 document.getElementById('ubicacion').textContent = maq.ubicacion;
-                document.getElementById('fecha_disponible').textContent = maq.fecha_disponible;
+                document.getElementById('fecha_disponible').textContent = maq.fecha_disponible ? new Date(maq.fecha_disponible).toLocaleDateString('es-CL') : '';
                 document.getElementById('precio').textContent = maq.precio;
                 document.getElementById('marca').textContent = maq.marca;
                 document.getElementById('anio_fabricacion').textContent = maq.anio_fabricacion;
