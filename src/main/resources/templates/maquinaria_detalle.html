@@ -39,8 +39,11 @@
         </div>
         <a href="/home">Volver al Home</a>
     </div>
-    <script>
-        const maquinarias = /*[[${maquinariasJson}]]*/ [];
+    <script th:inline="javascript">
+        let maquinarias = /*[[${maquinariasJson}]]*/ [];
+        if (typeof maquinarias === 'string') {
+            maquinarias = JSON.parse(maquinarias);
+        }
         function filtrarMaquinarias() {
             const texto = document.getElementById('buscador').value.toLowerCase();
             const select = document.getElementById('maquinariaSelect');
@@ -69,7 +72,9 @@
         }
         function limpiarSeleccion() {
             document.getElementById('maquinariaSelect').value = '';
+            document.getElementById('buscador').value = '';
             document.getElementById('detalleContainer').style.display = 'none';
+            filtrarMaquinarias(); // Opcional: para mostrar todas las opciones nuevamente
         }
     </script>
 </body>
