@@ -1,6 +1,5 @@
 package com.ignabasti.agricola.security;
 
-import com.ignabasti.agricola.security.JwtService;
 import io.jsonwebtoken.*;
 import jakarta.annotation.Resource;
 import jakarta.servlet.*;
