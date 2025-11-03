@@ -17,7 +17,7 @@ public class Aviso {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
+    @JsonBackReference(value = "usuario_aviso")
     private Usuario usuario;
 
     private java.sql.Date fecha_publicacion;

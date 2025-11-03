@@ -18,15 +18,15 @@ public class Usuario {
     private String cultivos;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonManagedReference
+    @JsonManagedReference(value = "usuario_maquinaria")
     private List<Maquinaria> maquinarias;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonManagedReference
+    @JsonManagedReference(value = "usuario_aviso")
     private List<Aviso> avisos;
 
     @OneToMany(mappedBy = "usuario")
-    @JsonManagedReference
+    @JsonManagedReference(value = "usuario_reserva")
     private List<Reserva> reservas;
 
     // Getters y setters

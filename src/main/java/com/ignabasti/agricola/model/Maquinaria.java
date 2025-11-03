@@ -24,7 +24,7 @@ public class Maquinaria {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
+    @JsonBackReference(value = "usuario_maquinaria")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "maquinaria")

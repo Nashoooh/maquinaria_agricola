@@ -17,7 +17,7 @@ public class Reserva {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
-    @JsonBackReference
+    @JsonBackReference(value = "usuario_reserva")
     private Usuario usuario;
 
     private java.sql.Date fecha_reserva;
