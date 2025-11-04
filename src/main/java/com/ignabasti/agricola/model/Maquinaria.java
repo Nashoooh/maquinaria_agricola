@@ -2,6 +2,8 @@ package com.ignabasti.agricola.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "maquinaria")
@@ -12,7 +14,7 @@ public class Maquinaria {
     private String tipo;
     private String ubicacion;
     private java.sql.Date fecha_disponible;
-    private Double precio;
+    private Integer precio;
     private String marca;
     private Integer anio_fabricacion;
     private String capacidad;
@@ -22,12 +24,15 @@ public class Maquinaria {
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonBackReference(value = "usuario_maquinaria")
     private Usuario usuario;
 
     @OneToMany(mappedBy = "maquinaria")
+    @JsonManagedReference
     private List<Aviso> avisos;
 
     @OneToMany(mappedBy = "maquinaria")
+    @JsonManagedReference
     private List<Reserva> reservas;
 
     // Getters y setters
@@ -63,11 +68,11 @@ public class Maquinaria {
         this.fecha_disponible = fecha_disponible;
     }
 
-    public Double getPrecio() {
+    public Integer getPrecio() {
         return precio;
     }
 
-    public void setPrecio(Double precio) {
+    public void setPrecio(Integer precio) {
         this.precio = precio;
     }
 

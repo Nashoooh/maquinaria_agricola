@@ -1,33 +1,84 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Detalle de Maquinaria</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <link rel="stylesheet" th:href="@{/css/maquinaria_detalle.css}" />
+    <link rel="stylesheet" th:href="@{/css/maquinaria_buscar.css}" />
 </head>
 <body>
     <div class="main-container">
         <h2>Detalle de Maquinaria</h2>
-        <div th:if="${maquinaria != null}">
-            <p><strong>Tipo:</strong> <span th:text="${maquinaria.tipo}"></span></p>
-            <p><strong>Ubicación:</strong> <span th:text="${maquinaria.ubicacion}"></span></p>
-            <p><strong>Fecha disponible:</strong> <span th:text="${maquinaria.fecha_disponible}"></span></p>
-            <p><strong>Precio:</strong> <span th:text="${maquinaria.precio}"></span></p>
-            <p><strong>Marca:</strong> <span th:text="${maquinaria.marca}"></span></p>
-            <p><strong>Año de fabricación:</strong> <span th:text="${maquinaria.anio_fabricacion}"></span></p>
-            <p><strong>Capacidad:</strong> <span th:text="${maquinaria.capacidad}"></span></p>
-            <p><strong>Mantenciones realizadas:</strong> <span th:text="${maquinaria.mantenciones}"></span></p>
-            <p><strong>Condiciones de arriendo:</strong> <span th:text="${maquinaria.condiciones}"></span></p>
-            <p><strong>Medios de pago:</strong> <span th:text="${maquinaria.medios_pago}"></span></p>
+        <div class="buscador-bar" style="display:flex; flex-wrap:wrap; gap:12px; align-items:center; margin-bottom:24px; justify-content:center;">
+            <input type="text" id="buscador" class="styled-input buscador" placeholder="Buscar maquinaria..." onkeyup="filtrarMaquinarias()" />
+            <select id="maquinariaSelect" class="styled-select" onchange="mostrarDetalle()">
+                <option value="">Seleccione una maquinaria</option>
+                <th:block th:if="${maquinarias != null}" th:each="maq : ${maquinarias}">
+                    <option th:value="${maq.id}" th:text="${maq.tipo + ' - ' + maq.marca + ' (' + maq.ubicacion + ')'}"></option>
+                </th:block>
+            </select>
+            <button onclick="limpiarSeleccion()" class="btn styled-btn">Limpiar selección</button>
         </div>
-        <div th:if="${maquinaria == null}">
-            <p class="error">Maquinaria no encontrada.</p>
+        <div id="detalleContainer" style="display:none;">
+            <div class="card-table-wrapper">
+                <table class="detalle-table vertical-table" style="width:100%; margin-top:0;">
+                    <tbody>
+                        <tr><th>Tipo</th><td id="tipo"></td></tr>
+                        <tr><th>Ubicación</th><td id="ubicacion"></td></tr>
+                        <tr><th>Fecha disponible</th><td id="fecha_disponible"></td></tr>
+                        <tr><th>Precio</th><td id="precio"></td></tr>
+                        <tr><th>Marca</th><td id="marca"></td></tr>
+                        <tr><th>Año de fabricación</th><td id="anio_fabricacion"></td></tr>
+                        <tr><th>Capacidad</th><td id="capacidad"></td></tr>
+                        <tr><th>Mantenciones</th><td id="mantenciones"></td></tr>
+                        <tr><th>Condiciones</th><td id="condiciones"></td></tr>
+                        <tr><th>Medios de pago</th><td id="medios_pago"></td></tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
-        <a href="/home">Volver al Home</a>
-        <!-- <form th:action="@{/logout}" method="post" style="display:inline;" sec:authorize="isAuthenticated()">
-            <button type="submit" class="btn">Cerrar sesión</button>
-        </form> -->
+        <div class="button-container" style="margin-top:30px;">
+            <a href="/home" class="btn-link">Volver al Home</a>
+        </div>
     </div>
+    <script th:inline="javascript">
+        let maquinarias = /*[[${maquinariasJson}]]*/ [];
+        if (typeof maquinarias === 'string') {
+            maquinarias = JSON.parse(maquinarias);
+        }
+        function filtrarMaquinarias() {
+            const texto = document.getElementById('buscador').value.toLowerCase();
+            const select = document.getElementById('maquinariaSelect');
+            for (let i = 1; i < select.options.length; i++) {
+                const option = select.options[i];
+                option.style.display = option.text.toLowerCase().includes(texto) ? '' : 'none';
+            }
+        }
+        function mostrarDetalle() {
+            const id = document.getElementById('maquinariaSelect').value;
+            if (!id) { limpiarSeleccion(); return; }
+            const maq = maquinarias.find(m => m.id == id);
+            if (maq) {
+                document.getElementById('tipo').textContent = maq.tipo;
+                document.getElementById('ubicacion').textContent = maq.ubicacion;
+                document.getElementById('fecha_disponible').textContent = maq.fecha_disponible ? new Date(maq.fecha_disponible).toLocaleDateString('es-CL') : '';
+                document.getElementById('precio').textContent = maq.precio;
+                document.getElementById('marca').textContent = maq.marca;
+                document.getElementById('anio_fabricacion').textContent = maq.anio_fabricacion;
+                document.getElementById('capacidad').textContent = maq.capacidad;
+                document.getElementById('mantenciones').textContent = maq.mantenciones;
+                document.getElementById('condiciones').textContent = maq.condiciones;
+                document.getElementById('medios_pago').textContent = maq.medios_pago;
+                document.getElementById('detalleContainer').style.display = '';
+            }
+        }
+        function limpiarSeleccion() {
+            document.getElementById('maquinariaSelect').value = '';
+            document.getElementById('buscador').value = '';
+            document.getElementById('detalleContainer').style.display = 'none';
+            filtrarMaquinarias(); // Opcional: para mostrar todas las opciones nuevamente
+        }
+    </script>
 </body>
 </html>

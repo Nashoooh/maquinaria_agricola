@@ -2,6 +2,7 @@ package com.ignabasti.agricola.model;
 
 import jakarta.persistence.*;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "usuario")
@@ -17,12 +18,15 @@ public class Usuario {
     private String cultivos;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference(value = "usuario_maquinaria")
     private List<Maquinaria> maquinarias;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference(value = "usuario_aviso")
     private List<Aviso> avisos;
 
     @OneToMany(mappedBy = "usuario")
+    @JsonManagedReference(value = "usuario_reserva")
     private List<Reserva> reservas;
 
     // Getters y setters

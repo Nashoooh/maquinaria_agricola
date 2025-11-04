@@ -1,5 +1,6 @@
 package com.ignabasti.agricola.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -11,10 +12,12 @@ public class Aviso {
 
     @ManyToOne
     @JoinColumn(name = "maquinaria_id")
+    @JsonBackReference
     private Maquinaria maquinaria;
 
     @ManyToOne
     @JoinColumn(name = "usuario_id")
+    @JsonBackReference(value = "usuario_aviso")
     private Usuario usuario;
 
     private java.sql.Date fecha_publicacion;

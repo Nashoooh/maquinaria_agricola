@@ -89,28 +89,25 @@
 			<groupId>io.github.cdimascio</groupId>
 			<artifactId>dotenv-java</artifactId>
 			<version>3.0.0</version>
-		</dependency>		
-		<!-- Dependencias para el driver JDBC de Oracle agregado para usar con Wallet-->
-		<!-- <dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc8</artifactId>
-			<version>23.2.0.0</version>
+		</dependency>
+		<!-- JSON Web Token (JWT) - JJWT -->
+		<dependency>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-api</artifactId>
+				<version>0.12.5</version>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle.database.security</groupId>
-			<artifactId>oraclepki</artifactId>
-			<version>23.2.0.0</version>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-impl</artifactId>
+				<version>0.12.5</version>
+				<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.oracle.database.security</groupId>
-			<artifactId>osdt_core</artifactId>
-			<version>23.2.0.0</version>
+				<groupId>io.jsonwebtoken</groupId>
+				<artifactId>jjwt-jackson</artifactId> <!-- Usa Jackson para parsear JSON -->
+				<version>0.12.5</version>
+				<scope>runtime</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.oracle.database.security</groupId>
-			<artifactId>osdt_cert</artifactId>
-			<version>23.2.0.0</version>
-		</dependency>		 -->
 	</dependencies>
 
 	<build>
