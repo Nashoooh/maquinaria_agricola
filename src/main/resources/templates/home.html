@@ -19,9 +19,15 @@
                 <li><a href="/maquinaria/detalle" class="btn-link">Detalle de Maquinaria</a></li>
             </ul>
         </nav>
-        <form th:action="@{/logout}" method="post" style="display:inline;">
-            <button type="submit" class="btn">Cerrar sesión</button>
-        </form>
+        <!-- <form th:action="@{/logout}" method="post" style="display:inline;"> -->
+            <button id="logoutBtn" class="btn">Cerrar sesión</button>
+        <!-- </form> -->
     </div>
 </body>
+<script>
+document.getElementById("logoutBtn").addEventListener("click", async () => {
+    await fetch("/api/auth/logout", { method: "POST" });
+    window.location.href = "/login";
+});
+</script>
 </html>
