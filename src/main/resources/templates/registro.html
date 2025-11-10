@@ -10,6 +10,7 @@
     <div class="main-container">
         <h2>Registro de Usuario</h2>
         <form th:action="@{/registro}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div>
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" required />

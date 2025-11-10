@@ -12,6 +12,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,7 +26,25 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http
-            .csrf(csrf -> csrf.disable())
+            // Headers: Content Security Policy (CSP) Que corrije la vulnerabilidad de XSS ZAP #1
+            .headers(headers -> headers
+                .contentSecurityPolicy(
+                    "default-src 'self'; " +
+                    "script-src 'self'; " +
+                    "style-src 'self'; " +    // quitar 'unsafe-inline' si moviste estilos a archivos .css
+                    "img-src 'self' data:; " +
+                    "font-src 'self'; " +
+                    "connect-src 'self'; " +
+                    "frame-ancestors 'none'; " +
+                    "form-action 'self';"
+                )
+                .and()
+                .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000))
+            )
+            // .csrf(csrf -> csrf.disable())
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")) // APIs JWT no requieren CSRF
+            )
             .authorizeHttpRequests(auth -> auth
                     // vistas públicas y recursos estáticos
                     .requestMatchers("/inicio", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
@@ -39,24 +58,8 @@ public class SecurityConfig {
             // agregamos el filtro JWT
             .addFilterBefore(JwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
             .build();
-
-        // try {
-        //     log.info("Iniciando security");
-        //     http
-        //         .csrf(AbstractHttpConfigurer::disable)
-        //         .authorizeHttpRequests(auth -> auth
-        //             .requestMatchers("/api/auth/**").permitAll()
-        //             .anyRequest().authenticated())
-        //         .addFilterAfter(JwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-        // } catch (Exception e) {
-            
-        //     log.error("Error configuring security filter chain: {}", e.getMessage());
-        //     e.printStackTrace();
-        // }
-        // return http.build();
     }
 
-    // ✅ Este bean resuelve tu error
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
         return authenticationConfiguration.getAuthenticationManager();
