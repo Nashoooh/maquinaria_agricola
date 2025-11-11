@@ -10,6 +10,7 @@
     <div class="main-container">
         <h2>Reservar Maquinaria</h2>
         <form th:action="@{/maquinaria/reserva}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div>
                 <label for="maquinariaId">Selecciona Maquinaria:</label>
                 <select id="maquinariaId" name="maquinariaId" required>

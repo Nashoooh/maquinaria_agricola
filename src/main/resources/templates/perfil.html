@@ -10,6 +10,7 @@
     <div class="main-container">
         <h2>Mi Perfil</h2>
         <form th:action="@{/perfil}" method="post">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
             <div>
                 <label for="direccion">Dirección:</label>
                 <input type="text" id="direccion" name="direccion" th:value="${usuario.direccion}" />
