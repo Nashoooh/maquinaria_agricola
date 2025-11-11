@@ -23,12 +23,16 @@ public class DetalleMaquinariaController {
     }
 
     @GetMapping("/maquinaria/detalle")
-    public String detalleMaquinarias(Model model) throws Exception {
+    public String detalleMaquinarias(@org.springframework.web.bind.annotation.RequestParam(required = false) Integer id, Model model) {
         List<Maquinaria> lista = maquinariaRepository.findAll();
         model.addAttribute("maquinarias", lista);
-        // Serializar lista a JSON para JS
-        com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
-        model.addAttribute("maquinariasJson", mapper.writeValueAsString(lista));
+        
+        // Si se proporciona un ID, buscar y mostrar ese detalle
+        if (id != null) {
+            Maquinaria maquinaria = maquinariaRepository.findById(id).orElse(null);
+            model.addAttribute("maquinariaSeleccionada", maquinaria);
+        }
+        
         return "maquinaria_detalle";
     }
 }

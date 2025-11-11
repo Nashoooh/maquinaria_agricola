@@ -95,3 +95,48 @@
 .styled-btn:hover {
     background-color: #1b5e20;
 }
+
+/* Buscador container estilos - consistente con el resto de la app */
+.buscador-container {
+    margin-bottom: 30px;
+}
+
+.buscador-container div {
+    margin-bottom: 20px;
+}
+
+.buscador-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 600;
+}
+
+.buscador-container input[type="text"],
+.buscador-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.buscador-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #2e7d32;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.buscador-container button:hover {
+    background-color: #1b5e20;
+}
+
+/* Contenedor de detalle oculto inicialmente */
+.detalle-container-hidden {
+    display: none;
+}

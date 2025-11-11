@@ -23,11 +23,6 @@
             <button id="logoutBtn" class="btn">Cerrar sesión</button>
         <!-- </form> -->
     </div>
+    <script th:src="@{/js/home.js}"></script>
 </body>
-<script>
-document.getElementById("logoutBtn").addEventListener("click", async () => {
-    await fetch("/api/auth/logout", { method: "POST" });
-    window.location.href = "/login";
-});
-</script>
 </html>
