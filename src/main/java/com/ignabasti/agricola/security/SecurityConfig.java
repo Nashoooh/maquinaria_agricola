@@ -45,11 +45,15 @@ public class SecurityConfig {
             .csrf(csrf -> csrf
                 .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")) // APIs JWT no requieren CSRF
             )
+            .csrf(csrf -> csrf
+                .ignoringRequestMatchers(new AntPathRequestMatcher("/maquinaria/**")) // APIs maquinaria JWT no requieren CSRF
+            )
             .authorizeHttpRequests(auth -> auth
                     // vistas públicas y recursos estáticos
-                    .requestMatchers("/inicio", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
+                    .requestMatchers("/favicon.ico", "/inicio", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
                     // endpoints públicos de autenticación
                     .requestMatchers("/api/auth/**").permitAll()
+                    .requestMatchers("/maquinaria/**").permitAll()
                     // cualquier otra ruta requiere autenticación con JWT
                     .anyRequest().authenticated()
             )

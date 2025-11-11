@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
@@ -50,18 +51,18 @@ public class MaquinariaController {
         return "maquinaria_registrar";
     }
 
-    @org.springframework.web.bind.annotation.PostMapping("/maquinaria/registrar")
+    @PostMapping("/maquinaria/registrar")
     public String registrarMaquinaria(
-            @org.springframework.web.bind.annotation.RequestParam String tipo,
-            @org.springframework.web.bind.annotation.RequestParam String marca,
-            @org.springframework.web.bind.annotation.RequestParam String ubicacion,
-            @org.springframework.web.bind.annotation.RequestParam java.sql.Date fecha_disponible,
-            @org.springframework.web.bind.annotation.RequestParam Integer precio,
-            @org.springframework.web.bind.annotation.RequestParam Integer anio_fabricacion,
-            @org.springframework.web.bind.annotation.RequestParam String capacidad,
-            @org.springframework.web.bind.annotation.RequestParam String mantenciones,
-            @org.springframework.web.bind.annotation.RequestParam String condiciones,
-            @org.springframework.web.bind.annotation.RequestParam String medios_pago,
+            @RequestParam String tipo,
+            @RequestParam String marca,
+            @RequestParam String ubicacion,
+            @RequestParam java.sql.Date fecha_disponible,
+            @RequestParam Integer precio,
+            @RequestParam Integer anio_fabricacion,
+            @RequestParam String capacidad,
+            @RequestParam String mantenciones,
+            @RequestParam String condiciones,
+            @RequestParam String medios_pago,
             @AuthenticationPrincipal UserDetails userDetails
     ) {
         Maquinaria maq = new Maquinaria();
