@@ -5,8 +5,6 @@ import com.ignabasti.agricola.model.Usuario;
 import com.ignabasti.agricola.repository.MaquinariaRepository;
 import com.ignabasti.agricola.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,8 +60,7 @@ public class MaquinariaController {
             @RequestParam String capacidad,
             @RequestParam String mantenciones,
             @RequestParam String condiciones,
-            @RequestParam String medios_pago,
-            @AuthenticationPrincipal UserDetails userDetails
+            @RequestParam String medios_pago
     ) {
         Maquinaria maq = new Maquinaria();
         maq.setTipo(tipo);
@@ -76,9 +73,17 @@ public class MaquinariaController {
         maq.setMantenciones(mantenciones);
         maq.setCondiciones(condiciones);
         maq.setMedios_pago(medios_pago);
-        // Asociar usuario autenticado
-        Usuario usuario = usuarioRepository.findByCorreo(userDetails.getUsername()).orElse(null);
-        maq.setUsuario(usuario);
+        
+        // Obtener usuario autenticado desde SecurityContext
+        org.springframework.security.core.Authentication authentication = 
+            org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
+        
+        if (authentication != null && authentication.isAuthenticated()) {
+            String correoUsuario = authentication.getName();
+            Usuario usuario = usuarioRepository.findByCorreo(correoUsuario).orElse(null);
+            maq.setUsuario(usuario);
+        }
+        
         maquinariaRepository.save(maq);
         return "redirect:/maquinaria/buscar";
     }
