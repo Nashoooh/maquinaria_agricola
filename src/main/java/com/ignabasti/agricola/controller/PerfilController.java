@@ -2,7 +2,9 @@ package com.ignabasti.agricola.controller;
 
 import com.ignabasti.agricola.model.Usuario;
 import com.ignabasti.agricola.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,9 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class PerfilController {
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+
+    private final UsuarioRepository usuarioRepository;
 
     @GetMapping("/perfil")
     public String mostrarPerfil(Authentication auth, Model model) {

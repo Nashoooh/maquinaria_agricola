@@ -6,7 +6,9 @@ import com.ignabasti.agricola.model.Usuario;
 import com.ignabasti.agricola.repository.AvisoRepository;
 import com.ignabasti.agricola.repository.MaquinariaRepository;
 import com.ignabasti.agricola.repository.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,13 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class AvisoController {
-    @Autowired
-    private AvisoRepository avisoRepository;
-    @Autowired
-    private MaquinariaRepository maquinariaRepository;
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+    
+    private final AvisoRepository avisoRepository;
+    private final MaquinariaRepository maquinariaRepository;
+    private final UsuarioRepository usuarioRepository;
 
     @GetMapping("/maquinaria/avisos")
     public String mostrarFormularioAviso(Authentication auth, Model model) {

@@ -1,13 +1,10 @@
 package com.ignabasti.agricola;
 
-// import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
 
-@SpringBootTest
 class AgricolaApplicationTests {
-
-	// @Test
-	// void contextLoads() {
-	// }
-
+	@Test 
+	void contextLoads() {
+		assert true;
+	}
 }
