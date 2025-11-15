@@ -2,7 +2,9 @@ package com.ignabasti.agricola.controller;
 
 import com.ignabasti.agricola.model.Usuario;
 import com.ignabasti.agricola.service.UsuarioService;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,9 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
+@RequiredArgsConstructor
 public class RegistroController {
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final UsuarioService usuarioService;
 
     @GetMapping("/registro")
     public String registro() {
