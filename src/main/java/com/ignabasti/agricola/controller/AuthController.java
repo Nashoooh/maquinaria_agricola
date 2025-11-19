@@ -51,10 +51,13 @@ public class AuthController {
             // Crear cookie HttpOnly para el navegador
             Cookie cookie = new Cookie("jwt", token);
             cookie.setHttpOnly(true); // evita acceso desde JS
-            cookie.setSecure(true);
+            cookie.setSecure(false); // false para desarrollo local (http). En producción usar true (https)
             cookie.setPath("/"); // accesible en toda la app
             cookie.setMaxAge(24 * 60 * 60); // 1 día
+            cookie.setAttribute("SameSite", "Lax"); // Permite envío en navegaciones GET
             response.addCookie(cookie);
+            
+            log.info("✅ Cookie JWT creada. HttpOnly=true, Secure=false, Path=/, SameSite=Lax, MaxAge={} seg", cookie.getMaxAge());
 
             // Devolver también el token y usuario por JSON (para Postman)
             Map<String, Object> body = new HashMap<>();
@@ -94,12 +97,15 @@ public class AuthController {
         // Eliminar cookie JWT
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
-        cookie.setSecure(true); // mantener true si usas HTTPS
+        cookie.setSecure(false); // false para desarrollo (http). En producción usar true (https)
         cookie.setPath("/");
         cookie.setMaxAge(0); // Expira inmediatamente
+        cookie.setAttribute("SameSite", "Lax");
         response.addCookie(cookie);
+        
+        log.info("🚪 Cookie JWT eliminada en logout");
 
-        return "redirect:/login"; // o a tu página de inicio de sesión
+        return "redirect:/login";
     }
     
 }

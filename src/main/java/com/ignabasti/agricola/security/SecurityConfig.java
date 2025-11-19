@@ -51,7 +51,6 @@ public class SecurityConfig {
                     .requestMatchers("/favicon.ico", "/inicio", "/login", "/registro", "/css/**", "/js/**", "/images/**").permitAll()
                     // endpoints públicos de autenticación
                     .requestMatchers("/api/auth/**").permitAll()
-                    .requestMatchers("/maquinaria/**").permitAll()
                     // cualquier otra ruta requiere autenticación con JWT
                     .anyRequest().authenticated()
             )

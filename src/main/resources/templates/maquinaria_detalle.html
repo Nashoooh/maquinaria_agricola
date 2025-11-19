@@ -38,14 +38,14 @@
                 <tbody>
                     <tr><th>Tipo</th><td th:text="${maquinariaSeleccionada.tipo}"></td></tr>
                     <tr><th>Ubicación</th><td th:text="${maquinariaSeleccionada.ubicacion}"></td></tr>
-                    <tr><th>Fecha disponible</th><td th:text="${#dates.format(maquinariaSeleccionada.fecha_disponible, 'dd/MM/yyyy')}"></td></tr>
+                    <tr><th>Fecha disponible</th><td th:text="${#dates.format(maquinariaSeleccionada.fechaDisponible, 'dd/MM/yyyy')}"></td></tr>
                     <tr><th>Precio</th><td th:text="${'$' + #numbers.formatInteger(maquinariaSeleccionada.precio, 0, 'POINT')}"></td></tr>
                     <tr><th>Marca</th><td th:text="${maquinariaSeleccionada.marca}"></td></tr>
-                    <tr><th>Año de fabricación</th><td th:text="${maquinariaSeleccionada.anio_fabricacion}"></td></tr>
+                    <tr><th>Año de fabricación</th><td th:text="${maquinariaSeleccionada.anioFabricacion}"></td></tr>
                     <tr><th>Capacidad</th><td th:text="${maquinariaSeleccionada.capacidad}"></td></tr>
                     <tr><th>Mantenciones</th><td th:text="${maquinariaSeleccionada.mantenciones}"></td></tr>
                     <tr><th>Condiciones</th><td th:text="${maquinariaSeleccionada.condiciones}"></td></tr>
-                    <tr><th>Medios de pago</th><td th:text="${maquinariaSeleccionada.medios_pago}"></td></tr>
+                    <tr><th>Medios de pago</th><td th:text="${maquinariaSeleccionada.mediosPago}"></td></tr>
                 </tbody>
             </table>
         </div>

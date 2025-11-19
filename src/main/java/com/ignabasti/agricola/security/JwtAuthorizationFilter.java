@@ -49,15 +49,21 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
         }
 
         // 👉 NUEVO: intenta desde Cookie "jwt"
-        if (request.getCookies() != null) {
-            for (Cookie cookie : request.getCookies()) {
+        Cookie[] cookies = request.getCookies();
+        log.info("🍪 Cookies recibidas: {}", cookies != null ? cookies.length : 0);
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                log.info("🍪 Cookie encontrada: {} = {}", cookie.getName(), cookie.getValue().length() > 10 ? cookie.getValue().substring(0, 10) + "..." : cookie.getValue());
                 if ("jwt".equals(cookie.getName())) {
-                    log.info("🍪 Token obtenido desde Cookie");
+                    log.info("✅ Token JWT obtenido desde Cookie jwt");
                     return Optional.of(cookie.getValue());
                 }
             }
+        } else {
+            log.warn("⚠️ No se recibieron cookies en la petición");
         }
 
+        log.warn("⚠️ No se encontró token JWT en Header ni Cookie");
         return Optional.empty();
     }
 
@@ -85,10 +91,12 @@ public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
             Optional<String> optionalUnverifiedToken = getToken(request);
             if (optionalUnverifiedToken.isEmpty()) {
+                log.warn("❌ No se encontró token JWT para la ruta: {}", uri);
                 throw new MalformedJwtException("Invalid JWT token");
             }
 
             String unverifiedToken = optionalUnverifiedToken.get();
+            log.info("🔍 Token encontrado, longitud: {}", unverifiedToken.length());
 
             // ⚙️ 2️⃣ NUEVO: decodificar si el token viene Base64 (por el '=' que mencionaste)
             if (!unverifiedToken.startsWith("eyJ")) {
