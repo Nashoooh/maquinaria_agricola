@@ -1,6 +1,6 @@
 package com.ignabasti.agricola.controller;
 
-import com.ignabasti.agricola.model.Usuario;
+import com.ignabasti.agricola.dto.UsuarioDTO;
 import com.ignabasti.agricola.service.UsuarioService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,16 +27,24 @@ public class RegistroController {
                                                 @RequestParam String correo,
                                                 @RequestParam String contrasena,
                                                 Model model) {
-        if (usuarioService.existePorCorreo(correo)) {
-            model.addAttribute("error", "El correo ya está registrado.");
+        try {
+            if (usuarioService.existePorCorreo(correo)) {
+                model.addAttribute("error", "El correo ya está registrado.");
+                return "registro";
+            }
+            
+            UsuarioDTO usuarioDTO = UsuarioDTO.builder()
+                    .nombre(nombre)
+                    .correo(correo)
+                    .contrasena(contrasena)
+                    .build();
+            
+            usuarioService.registrarUsuario(usuarioDTO);
+            model.addAttribute("exito", "Usuario registrado correctamente. Ahora puedes iniciar sesión.");
+            return "registro";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al registrar usuario: " + e.getMessage());
             return "registro";
         }
-        Usuario usuario = new Usuario();
-        usuario.setNombre(nombre);
-        usuario.setCorreo(correo);
-        usuario.setContrasena(contrasena);
-        usuarioService.registrarUsuario(usuario);
-        model.addAttribute("exito", "Usuario registrado correctamente. Ahora puedes iniciar sesión.");
-        return "registro";
     }
 }

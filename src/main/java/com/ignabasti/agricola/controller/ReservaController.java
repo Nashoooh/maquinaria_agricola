@@ -1,54 +1,54 @@
 package com.ignabasti.agricola.controller;
 
-import com.ignabasti.agricola.model.Maquinaria;
-import com.ignabasti.agricola.model.Reserva;
-import com.ignabasti.agricola.model.Usuario;
-import com.ignabasti.agricola.repository.MaquinariaRepository;
-import com.ignabasti.agricola.repository.ReservaRepository;
-import com.ignabasti.agricola.repository.UsuarioRepository;
+import com.ignabasti.agricola.dto.MaquinariaDTO;
+import com.ignabasti.agricola.dto.ReservaDTO;
+import com.ignabasti.agricola.service.MaquinariaService;
+import com.ignabasti.agricola.service.ReservaService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.sql.Date;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class ReservaController {
 
-    private final MaquinariaRepository maquinariaRepository;
-    private final ReservaRepository reservaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final MaquinariaService maquinariaService;
+    private final ReservaService reservaService;
 
     @GetMapping("/maquinaria/reserva")
     public String mostrarFormularioReserva(Model model) {
-        List<Maquinaria> maquinarias = maquinariaRepository.findAll();
+        List<MaquinariaDTO> maquinarias = maquinariaService.obtenerTodasLasMaquinarias();
         model.addAttribute("maquinarias", maquinarias);
         return "maquinaria_reserva";
     }
 
     @PostMapping("/maquinaria/reserva")
-    public String reservarMaquinaria(Authentication auth,
-                                    @RequestParam Integer maquinariaId,
-                                    @RequestParam String fecha_reserva,
+    public String reservarMaquinaria(@RequestParam Integer maquinariaId,
+                                    @RequestParam String fechaReserva,
                                     Model model) {
-        String correo = auth.getName();
-        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-        Maquinaria maquinaria = maquinariaRepository.findById(maquinariaId).orElse(null);
-        if (usuario != null && maquinaria != null) {
-            Reserva reserva = new Reserva();
-            reserva.setUsuario(usuario);
-            reserva.setMaquinaria(maquinaria);
-            reserva.setFecha_reserva(java.sql.Date.valueOf(fecha_reserva));
-            reservaRepository.save(reserva);
+        try {
+            ReservaDTO reservaDTO = ReservaDTO.builder()
+                    .maquinariaId(maquinariaId)
+                    .fechaReserva(Date.valueOf(fechaReserva))
+                    .build();
+            
+            reservaService.crearReserva(reservaDTO);
             model.addAttribute("exito", "Reserva realizada correctamente.");
+        } catch (SecurityException e) {
+            model.addAttribute("error", "Debe estar autenticado para realizar una reserva.");
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al realizar reserva: " + e.getMessage());
         }
-        List<Maquinaria> maquinarias = maquinariaRepository.findAll();
+        
+        List<MaquinariaDTO> maquinarias = maquinariaService.obtenerTodasLasMaquinarias();
         model.addAttribute("maquinarias", maquinarias);
         return "maquinaria_reserva";
     }

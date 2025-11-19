@@ -10,7 +10,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,27 +24,27 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain web(HttpSecurity http) throws Exception {
         return http
-            // Headers: Content Security Policy (CSP) Que corrije la vulnerabilidad de XSS ZAP #1
+            // Headers: Content Security Policy (CSP) y HSTS
             .headers(headers -> headers
-                .contentSecurityPolicy(
-                    "default-src 'self'; " +
-                    "script-src 'self'; " +
-                    "style-src 'self'; " +    // quitar 'unsafe-inline' si moviste estilos a archivos .css
-                    "img-src 'self' data:; " +
-                    "font-src 'self'; " +
-                    "connect-src 'self'; " +
-                    "frame-ancestors 'none'; " +
-                    "form-action 'self';"
+                .contentSecurityPolicy(csp -> csp
+                    .policyDirectives(
+                        "default-src 'self'; " +
+                        "script-src 'self'; " +
+                        "style-src 'self'; " +
+                        "img-src 'self' data:; " +
+                        "font-src 'self'; " +
+                        "connect-src 'self'; " +
+                        "frame-ancestors 'none'; " +
+                        "form-action 'self';"
+                    )
                 )
-                .and()
-                .httpStrictTransportSecurity(hsts -> hsts.includeSubDomains(true).maxAgeInSeconds(31536000))
-            )
-            // .csrf(csrf -> csrf.disable())
-            .csrf(csrf -> csrf
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/api/**")) // APIs JWT no requieren CSRF
+                .httpStrictTransportSecurity(hsts -> hsts
+                    .includeSubDomains(true)
+                    .maxAgeInSeconds(31536000)
+                )
             )
             .csrf(csrf -> csrf
-                .ignoringRequestMatchers(new AntPathRequestMatcher("/maquinaria/**")) // APIs maquinaria JWT no requieren CSRF
+                .ignoringRequestMatchers("/api/**", "/maquinaria/**") // APIs JWT no requieren CSRF
             )
             .authorizeHttpRequests(auth -> auth
                     // vistas públicas y recursos estáticos

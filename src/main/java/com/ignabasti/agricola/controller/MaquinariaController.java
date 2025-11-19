@@ -1,25 +1,22 @@
 package com.ignabasti.agricola.controller;
 
-import com.ignabasti.agricola.model.Maquinaria;
-import com.ignabasti.agricola.model.Usuario;
-import com.ignabasti.agricola.repository.MaquinariaRepository;
-import com.ignabasti.agricola.repository.UsuarioRepository;
+import com.ignabasti.agricola.dto.MaquinariaDTO;
+import com.ignabasti.agricola.service.MaquinariaService;
 
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+
+import java.sql.Date;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class MaquinariaController {
 
-    private final MaquinariaRepository maquinariaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final MaquinariaService maquinariaService;
 
     @GetMapping("/maquinaria/buscar")
     public String buscarMaquinaria(@RequestParam(required = false) String tipo,
@@ -27,20 +24,7 @@ public class MaquinariaController {
                                    @RequestParam(required = false) String fecha,
                                    @RequestParam(required = false) Integer precio,
                                    Model model) {
-        List<Maquinaria> maquinarias = maquinariaRepository.findAll();
-        // Filtros simples en memoria (puedes optimizar con queries en el repo)
-        if (tipo != null && !tipo.isEmpty()) {
-            maquinarias.removeIf(m -> !m.getTipo().equalsIgnoreCase(tipo));
-        }
-        if (ubicacion != null && !ubicacion.isEmpty()) {
-            maquinarias.removeIf(m -> !m.getUbicacion().equalsIgnoreCase(ubicacion));
-        }
-        if (fecha != null && !fecha.isEmpty()) {
-            maquinarias.removeIf(m -> !m.getFecha_disponible().toString().equals(fecha));
-        }
-        if (precio != null) {
-            maquinarias.removeIf(m -> m.getPrecio() > precio);
-        }
+        List<MaquinariaDTO> maquinarias = maquinariaService.buscarMaquinarias(tipo, ubicacion, fecha, precio);
         model.addAttribute("maquinarias", maquinarias);
         return "maquinaria_buscar";
     }
@@ -55,37 +39,38 @@ public class MaquinariaController {
             @RequestParam String tipo,
             @RequestParam String marca,
             @RequestParam String ubicacion,
-            @RequestParam java.sql.Date fecha_disponible,
+            @RequestParam Date fechaDisponible,
             @RequestParam Integer precio,
-            @RequestParam Integer anio_fabricacion,
+            @RequestParam Integer anioFabricacion,
             @RequestParam String capacidad,
-            @RequestParam String mantenciones,
-            @RequestParam String condiciones,
-            @RequestParam String medios_pago
+            @RequestParam(required = false) String mantenciones,
+            @RequestParam(required = false) String condiciones,
+            @RequestParam String mediosPago,
+            Model model
     ) {
-        Maquinaria maq = new Maquinaria();
-        maq.setTipo(tipo);
-        maq.setMarca(marca);
-        maq.setUbicacion(ubicacion);
-        maq.setFecha_disponible(fecha_disponible);
-        maq.setPrecio(precio);
-        maq.setAnio_fabricacion(anio_fabricacion);
-        maq.setCapacidad(capacidad);
-        maq.setMantenciones(mantenciones);
-        maq.setCondiciones(condiciones);
-        maq.setMedios_pago(medios_pago);
-        
-        // Obtener usuario autenticado desde SecurityContext
-        org.springframework.security.core.Authentication authentication = 
-            org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
-        
-        if (authentication != null && authentication.isAuthenticated()) {
-            String correoUsuario = authentication.getName();
-            Usuario usuario = usuarioRepository.findByCorreo(correoUsuario).orElse(null);
-            maq.setUsuario(usuario);
+        try {
+            MaquinariaDTO maquinariaDTO = MaquinariaDTO.builder()
+                    .tipo(tipo)
+                    .marca(marca)
+                    .ubicacion(ubicacion)
+                    .fechaDisponible(fechaDisponible)
+                    .precio(precio)
+                    .anioFabricacion(anioFabricacion)
+                    .capacidad(capacidad)
+                    .mantenciones(mantenciones)
+                    .condiciones(condiciones)
+                    .mediosPago(mediosPago)
+                    .build();
+            
+            maquinariaService.registrarMaquinaria(maquinariaDTO);
+            model.addAttribute("exito", "Maquinaria registrada exitosamente");
+            return "redirect:/maquinaria/buscar";
+        } catch (SecurityException e) {
+            model.addAttribute("error", "Debe estar autenticado para registrar maquinaria");
+            return "maquinaria_registrar";
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al registrar maquinaria: " + e.getMessage());
+            return "maquinaria_registrar";
         }
-        
-        maquinariaRepository.save(maq);
-        return "redirect:/maquinaria/buscar";
     }
 }

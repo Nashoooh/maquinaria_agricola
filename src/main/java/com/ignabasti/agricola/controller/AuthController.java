@@ -1,12 +1,14 @@
 package com.ignabasti.agricola.controller;
 
-import com.ignabasti.agricola.model.Usuario;
-import com.ignabasti.agricola.repository.UsuarioRepository;
+import com.ignabasti.agricola.dto.LoginDTO;
+import com.ignabasti.agricola.dto.UsuarioDTO;
 import com.ignabasti.agricola.security.JwtService;
+import com.ignabasti.agricola.service.UsuarioService;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +19,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,16 +32,15 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtService jwtService;
-    private final PasswordEncoder passwordEncoder;
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioService usuarioService;
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody Map<String, String> request, HttpServletResponse response) {
+    public ResponseEntity<Map<String, Object>> login(@Valid @RequestBody LoginDTO loginDTO, HttpServletResponse response) {
         try {
             Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                    request.get("correo"),
-                    request.get("contrasena"))
+                    loginDTO.getCorreo(),
+                    loginDTO.getContrasena())
             );
 
             log.info("Usuario autenticado: {}", authentication.getName());
@@ -72,16 +72,13 @@ public class AuthController {
     }
 
     @PostMapping(value = "/registro", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> registrarUsuario(@RequestBody Usuario usuario) {
+    public ResponseEntity<?> registrarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         // Validar si el correo ya existe
-        if (usuarioRepository.findByCorreo(usuario.getCorreo()).isPresent()) {
+        if (usuarioService.existePorCorreo(usuarioDTO.getCorreo())) {
             return ResponseEntity.badRequest().body("El correo ya está registrado");
         }
 
-        // Encriptar contraseña antes de guardar
-        usuario.setContrasena(passwordEncoder.encode(usuario.getContrasena()));
-        
-        usuarioRepository.save(usuario);
+        usuarioService.registrarUsuario(usuarioDTO);
         return ResponseEntity.ok("Usuario registrado exitosamente");
     }
 

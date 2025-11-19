@@ -1,55 +1,53 @@
 package com.ignabasti.agricola.controller;
 
-import com.ignabasti.agricola.model.Aviso;
-import com.ignabasti.agricola.model.Maquinaria;
-import com.ignabasti.agricola.model.Usuario;
-import com.ignabasti.agricola.repository.AvisoRepository;
-import com.ignabasti.agricola.repository.MaquinariaRepository;
-import com.ignabasti.agricola.repository.UsuarioRepository;
+import com.ignabasti.agricola.dto.AvisoDTO;
+import com.ignabasti.agricola.dto.MaquinariaDTO;
+import com.ignabasti.agricola.service.AvisoService;
+import com.ignabasti.agricola.service.MaquinariaService;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
 public class AvisoController {
     
-    private final AvisoRepository avisoRepository;
-    private final MaquinariaRepository maquinariaRepository;
-    private final UsuarioRepository usuarioRepository;
+    private final AvisoService avisoService;
+    private final MaquinariaService maquinariaService;
 
     @GetMapping("/maquinaria/avisos")
-    public String mostrarFormularioAviso(Authentication auth, Model model) {
-        List<Maquinaria> maquinarias = maquinariaRepository.findAll();
+    public String mostrarFormularioAviso(Model model) {
+        List<MaquinariaDTO> maquinarias = maquinariaService.obtenerTodasLasMaquinarias();
         model.addAttribute("maquinarias", maquinarias);
         return "maquinaria_avisos";
     }
 
     @PostMapping("/maquinaria/avisos")
-    public String publicarAviso(Authentication auth,
-                                @RequestParam Integer maquinariaId,
+    public String publicarAviso(@RequestParam Integer maquinariaId,
                                 @RequestParam(required = false) Boolean destacado,
                                 Model model) {
-        String correo = auth.getName();
-        Usuario usuario = usuarioRepository.findByCorreo(correo).orElse(null);
-        Maquinaria maquinaria = maquinariaRepository.findById(maquinariaId).orElse(null);
-        if (usuario != null && maquinaria != null) {
-            Aviso aviso = new Aviso();
-            aviso.setUsuario(usuario);
-            aviso.setMaquinaria(maquinaria);
-            aviso.setFecha_publicacion(new java.sql.Date(System.currentTimeMillis()));
-            aviso.setDestacado(destacado != null ? destacado : false);
-            avisoRepository.save(aviso);
+        try {
+            AvisoDTO avisoDTO = AvisoDTO.builder()
+                    .maquinariaId(maquinariaId)
+                    .destacado(destacado != null ? destacado : false)
+                    .build();
+            
+            avisoService.publicarAviso(avisoDTO);
             model.addAttribute("exito", "Aviso publicado correctamente.");
+        } catch (SecurityException e) {
+            model.addAttribute("error", "Debe estar autenticado para publicar un aviso.");
+        } catch (Exception e) {
+            model.addAttribute("error", "Error al publicar aviso: " + e.getMessage());
         }
-        List<Maquinaria> maquinarias = maquinariaRepository.findAll();
+        
+        List<MaquinariaDTO> maquinarias = maquinariaService.obtenerTodasLasMaquinarias();
         model.addAttribute("maquinarias", maquinarias);
         return "maquinaria_avisos";
     }
