@@ -14,8 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class SecurityIntegrationTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
-    private JwtService jwtService;
+
     @Autowired
     private JwtService realJwtService;
 
