@@ -53,6 +53,12 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<!-- Para usar JSONPath en tests -->
+		<dependency>
+				<groupId>com.jayway.jsonpath</groupId>
+				<artifactId>json-path</artifactId>
+				<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>jakarta.persistence</groupId>
 			<artifactId>jakarta.persistence-api</artifactId>
@@ -165,7 +171,22 @@
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.10</version>
+				<version>0.8.12</version>
+				<configuration>
+					<excludes>
+						<!-- Clase principal -->
+						<exclude>**/*Application.class</exclude>
+						<!-- DTOs y entidades -->
+						<exclude>**/model/**</exclude>
+						<!-- Excepciones -->
+						<exclude>**/exception/**</exclude>
+						<!-- Configuración de Spring (incluye SecurityConfig) -->
+						<exclude>**/config/**</exclude>
+						<exclude>**/security/**</exclude>
+						<!-- Clases utilitarias sin lógica -->
+						<exclude>**/utils/**</exclude>
+					</excludes>
+				</configuration>
 				<executions>
 					<execution>
 						<id>prepare-agent</id>
@@ -175,7 +196,7 @@
 					</execution>
 					<execution>
 							<id>report</id>
-							<phase>verify</phase>
+							<phase>test</phase>
 							<goals>
 									<goal>report</goal>
 							</goals>
