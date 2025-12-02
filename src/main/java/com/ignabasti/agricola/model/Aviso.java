@@ -21,7 +21,8 @@ public class Aviso {
     private Usuario usuario;
 
     private java.sql.Date fecha_publicacion;
-    private Boolean destacado;
+    // private Boolean destacado;
+    private Boolean destacado = false;
 
     // Getters y setters
     public Integer getId() {

@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,7 +43,8 @@ public class AvisoService {
         aviso.setUsuario(usuarioActual);
         aviso.setMaquinaria(maquinaria);
         aviso.setFecha_publicacion(new Date(System.currentTimeMillis()));
-        aviso.setDestacado(avisoDTO.getDestacado() != null ? avisoDTO.getDestacado() : false);
+        // aviso.setDestacado(avisoDTO.getDestacado() != null ? avisoDTO.getDestacado() : false);
+        aviso.setDestacado(Boolean.TRUE.equals(avisoDTO.getDestacado()));
         
         Aviso guardado = avisoRepository.save(aviso);
         log.info("Aviso publicado con ID: {} por usuario: {}", guardado.getId(), usuarioActual.getCorreo());
@@ -66,16 +68,32 @@ public class AvisoService {
         log.info("Aviso eliminado con ID: {}", id);
     }
 
+    // private AvisoDTO convertirADTO(Aviso aviso) {
+    //     Maquinaria m = aviso.getMaquinaria();
+    //     Usuario u = aviso.getUsuario();
+
+    //     return AvisoDTO.builder()
+    //             .id(aviso.getId())
+    //             .maquinariaId(getMaquinariaId(m))
+    //             .maquinariaTipo(getMaquinariaTipo(m))
+    //             .maquinariaMarca(m != null ? m.getMarca() : null)  // igual se puede mover a helper
+    //             .usuarioId(getUsuarioId(u))
+    //             .usuarioNombre(getUsuarioNombre(u))
+    //             .fechaPublicacion(aviso.getFecha_publicacion())
+    //             .destacado(aviso.getDestacado())
+    //             .build();
+    // }
+
     private AvisoDTO convertirADTO(Aviso aviso) {
         return AvisoDTO.builder()
-                .id(aviso.getId())
-                .maquinariaId(aviso.getMaquinaria() != null ? aviso.getMaquinaria().getId() : null)
-                .maquinariaTipo(aviso.getMaquinaria() != null ? aviso.getMaquinaria().getTipo() : null)
-                .maquinariaMarca(aviso.getMaquinaria() != null ? aviso.getMaquinaria().getMarca() : null)
-                .usuarioId(aviso.getUsuario() != null ? aviso.getUsuario().getId() : null)
-                .usuarioNombre(aviso.getUsuario() != null ? aviso.getUsuario().getNombre() : null)
-                .fechaPublicacion(aviso.getFecha_publicacion())
-                .destacado(aviso.getDestacado())
-                .build();
+            .id(aviso.getId())
+            .maquinariaId(Optional.ofNullable(aviso.getMaquinaria()).map(Maquinaria::getId).orElse(null))
+            .maquinariaTipo(Optional.ofNullable(aviso.getMaquinaria()).map(Maquinaria::getTipo).orElse(null))
+            .maquinariaMarca(Optional.ofNullable(aviso.getMaquinaria()).map(Maquinaria::getMarca).orElse(null))
+            .usuarioId(Optional.ofNullable(aviso.getUsuario()).map(Usuario::getId).orElse(null))
+            .usuarioNombre(Optional.ofNullable(aviso.getUsuario()).map(Usuario::getNombre).orElse(null))
+            .fechaPublicacion(aviso.getFecha_publicacion())
+            .destacado(aviso.getDestacado())
+            .build();
     }
 }

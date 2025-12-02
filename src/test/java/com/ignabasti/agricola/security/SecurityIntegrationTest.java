@@ -6,6 +6,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,5 +40,18 @@ class SecurityIntegrationTest {
         mockMvc.perform(get("/maquinaria/detalle?id=1")
                 .header("Authorization", "Bearer " + jwt))
             .andExpect(status().isOk());
+    }
+
+    @Test
+    void testExtractUsername() {
+        // Arrange
+        String username = "testuser";
+        String token = realJwtService.generateToken(username);
+
+        // Act
+        String extracted = realJwtService.extractUsername(token);
+
+        // Assert
+        assertEquals(username, extracted);
     }
 }
