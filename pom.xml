@@ -177,14 +177,14 @@
 						<!-- Clase principal -->
 						<exclude>**/*Application.class</exclude>
 						<!-- DTOs y entidades -->
-						<exclude>**/model/**</exclude>
+						<!-- <exclude>**/model/**</exclude> -->
 						<!-- Excepciones -->
-						<exclude>**/exception/**</exclude>
+						<!-- <exclude>**/exception/**</exclude> -->
 						<!-- Configuración de Spring (incluye SecurityConfig) -->
-						<exclude>**/config/**</exclude>
-						<exclude>**/security/**</exclude>
+						<!-- <exclude>**/config/**</exclude> -->
+						<!-- <exclude>**/security/**</exclude> -->
 						<!-- Clases utilitarias sin lógica -->
-						<exclude>**/utils/**</exclude>
+						<!-- <exclude>**/utils/**</exclude> -->
 					</excludes>
 				</configuration>
 				<executions>
