@@ -1,8 +1,6 @@
 package com.ignabasti.agricola.service;
 
-import com.ignabasti.agricola.dto.AvisoDTO;
 import com.ignabasti.agricola.dto.MaquinariaDTO;
-import com.ignabasti.agricola.model.Aviso;
 import com.ignabasti.agricola.model.Maquinaria;
 import com.ignabasti.agricola.model.Usuario;
 import com.ignabasti.agricola.repository.MaquinariaRepository;
@@ -17,7 +15,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -27,8 +27,6 @@
 		<url/>
 	</scm>
 	<properties>
-		<!-- Descomentar para usar con otra BD, comentar lo de abajo-->
-		<!-- <java.version>21</java.version> -->
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
@@ -176,15 +174,6 @@
 					<excludes>
 						<!-- Clase principal -->
 						<exclude>**/*Application.class</exclude>
-						<!-- DTOs y entidades -->
-						<!-- <exclude>**/model/**</exclude> -->
-						<!-- Excepciones -->
-						<!-- <exclude>**/exception/**</exclude> -->
-						<!-- Configuración de Spring (incluye SecurityConfig) -->
-						<!-- <exclude>**/config/**</exclude> -->
-						<!-- <exclude>**/security/**</exclude> -->
-						<!-- Clases utilitarias sin lógica -->
-						<!-- <exclude>**/utils/**</exclude> -->
 					</excludes>
 				</configuration>
 				<executions>
@@ -196,7 +185,7 @@
 					</execution>
 					<execution>
 							<id>report</id>
-							<phase>test</phase>
+							<phase>verify</phase>
 							<goals>
 									<goal>report</goal>
 							</goals>

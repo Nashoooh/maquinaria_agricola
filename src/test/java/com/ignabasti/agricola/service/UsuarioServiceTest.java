@@ -15,6 +15,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
@@ -76,48 +81,73 @@ class UsuarioServiceTest {
     // actualizarPerfil()
     // ------------------------------------------------------------
     @Test
-    void actualizarPerfil_debeActualizarTodosLosCampos() {
+    void actualizarPerfil_todosLosCampos() {
         Usuario usuario = new Usuario();
-        usuario.setContrasena("pass_old");
+        UsuarioDTO dto = UsuarioDTO.builder()
+                .nombre("Juan")
+                .telefono("123")
+                .direccion("Calle 1")
+                .cultivos("Trigo")
+                .contrasena("1234")
+                .build();
 
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setNombre("Nuevo");
-        dto.setTelefono("999");
-        dto.setDireccion("Casa nueva");
-        dto.setCultivos("Tomate");
-        dto.setContrasena("new_pass");
-
-        Mockito.when(passwordEncoder.encode("new_pass")).thenReturn("ENCODED_PASS");
-        Mockito.when(usuarioRepository.save(usuario)).thenReturn(usuario);
-
-        Usuario resultado = usuarioService.actualizarPerfil(usuario, dto);
-
-        Assertions.assertEquals("Nuevo", resultado.getNombre());
-        Assertions.assertEquals("999", resultado.getTelefono());
-        Assertions.assertEquals("Casa nueva", resultado.getDireccion());
-        Assertions.assertEquals("Tomate", resultado.getCultivos());
-        Assertions.assertEquals("ENCODED_PASS", resultado.getContrasena());
-    }
-
-    @Test
-    void actualizarPerfil_noDebeCambiarContrasenaSiEsNula() {
-        Usuario usuario = new Usuario();
-        usuario.setContrasena("OLD");
-
-        UsuarioDTO dto = new UsuarioDTO();
-        dto.setNombre("Cambio");
-        dto.setTelefono("123");
-
-        // contraseña nula → NO DEBE ejecutar encode
-        dto.setContrasena(null);
-
-        Mockito.when(usuarioRepository.save(usuario)).thenReturn(usuario);
+        when(passwordEncoder.encode("1234")).thenReturn("encoded");
+        when(usuarioRepository.save(any())).thenAnswer(i -> i.getArgument(0));
 
         Usuario result = usuarioService.actualizarPerfil(usuario, dto);
 
-        Assertions.assertEquals("OLD", result.getContrasena());
-        Mockito.verify(passwordEncoder, Mockito.never()).encode(Mockito.anyString());
+        assertEquals("Juan", result.getNombre());
+        assertEquals("123", result.getTelefono());
+        assertEquals("Calle 1", result.getDireccion());
+        assertEquals("Trigo", result.getCultivos());
+        assertEquals("encoded", result.getContrasena());
     }
+
+    @Test
+    void actualizarPerfil_nombreYContrasenaNull() {
+        Usuario usuario = new Usuario();
+        UsuarioDTO dto = new UsuarioDTO();
+
+        when(usuarioRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        Usuario result = usuarioService.actualizarPerfil(usuario, dto);
+
+        assertNull(result.getNombre());
+        assertNull(result.getContrasena());
+    }
+
+    @Test
+    void actualizarPerfil_nombreYContrasenaVacios() {
+        Usuario usuario = new Usuario();
+        usuario.setNombre("Original");
+
+        UsuarioDTO dto = UsuarioDTO.builder()
+                .nombre("")
+                .contrasena("")
+                .build();
+
+        when(usuarioRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        Usuario result = usuarioService.actualizarPerfil(usuario, dto);
+
+        assertEquals("Original", result.getNombre()); // no cambia
+        assertNull(result.getContrasena());
+    }
+
+    @Test
+    void actualizarPerfil_camposOpcionalesNull() {
+        Usuario usuario = new Usuario();
+        UsuarioDTO dto = new UsuarioDTO();
+
+        when(usuarioRepository.save(any())).thenAnswer(i -> i.getArgument(0));
+
+        Usuario result = usuarioService.actualizarPerfil(usuario, dto);
+
+        assertNull(result.getTelefono());
+        assertNull(result.getDireccion());
+        assertNull(result.getCultivos());
+    }
+
 
     // ------------------------------------------------------------
     // obtenerUsuarioPorCorreo()

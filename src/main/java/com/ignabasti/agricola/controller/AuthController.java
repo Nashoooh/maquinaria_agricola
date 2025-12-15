@@ -51,6 +51,8 @@ public class AuthController {
             // Crear cookie HttpOnly para el navegador
             Cookie cookie = new Cookie("jwt", token);
             cookie.setHttpOnly(true); // evita acceso desde JS
+            // Cookie is not marked as Secure because this is local development (HTTP).
+            // In production environments using HTTPS, the Secure flag must be enabled.
             cookie.setSecure(false); // false para desarrollo local (http). En producción usar true (https)
             cookie.setPath("/"); // accesible en toda la app
             cookie.setMaxAge(24 * 60 * 60); // 1 día
@@ -97,6 +99,8 @@ public class AuthController {
         // Eliminar cookie JWT
         Cookie cookie = new Cookie("jwt", null);
         cookie.setHttpOnly(true);
+        // Cookie is not marked as Secure because this is local development (HTTP).
+        // In production environments using HTTPS, the Secure flag must be enabled.
         cookie.setSecure(false); // false para desarrollo (http). En producción usar true (https)
         cookie.setPath("/");
         cookie.setMaxAge(0); // Expira inmediatamente

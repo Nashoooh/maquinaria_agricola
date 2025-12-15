@@ -44,6 +44,8 @@ public class SecurityConfig {
                 )
             )
             .csrf(csrf -> csrf
+                // CSRF is disabled for stateless JWT-based APIs.
+                // Authentication is handled via JWT tokens, not HTTP sessions.
                 .ignoringRequestMatchers("/api/**", "/maquinaria/**") // APIs JWT no requieren CSRF
             )
             .authorizeHttpRequests(auth -> auth

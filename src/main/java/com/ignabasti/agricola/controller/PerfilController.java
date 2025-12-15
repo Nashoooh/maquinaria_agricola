@@ -18,6 +18,7 @@ public class PerfilController {
 
     private final UsuarioService usuarioService;
     private final AuthenticationHelper authenticationHelper;
+    private static final String VISTA_PERFIL = "perfil";
 
     @GetMapping("/perfil")
     public String mostrarPerfil(Model model) {
@@ -25,7 +26,7 @@ public class PerfilController {
             UsuarioDTO usuario = usuarioService.obtenerUsuarioPorCorreo(
                     authenticationHelper.getAuthenticatedUserEmail());
             model.addAttribute("usuario", usuario);
-            return "perfil";
+            return VISTA_PERFIL;
         } catch (Exception e) {
             model.addAttribute("error", "Error al cargar perfil");
             return "redirect:/login";
@@ -48,10 +49,10 @@ public class PerfilController {
             usuarioService.actualizarUsuario(correo, usuarioDTO);
             model.addAttribute("exito", "Perfil actualizado correctamente.");
             model.addAttribute("usuario", usuarioDTO);
-            return "perfil";
+            return VISTA_PERFIL;
         } catch (Exception e) {
             model.addAttribute("error", "Error al actualizar perfil");
-            return "perfil";
+            return VISTA_PERFIL;
         }
     }
 }
