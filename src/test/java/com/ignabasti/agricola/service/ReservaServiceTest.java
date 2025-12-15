@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,6 +40,14 @@ class ReservaServiceTest {
     private Usuario usuario;
     private Maquinaria maquinaria;
     private Reserva reserva;
+
+    private ReservaDTO invokeConvertirADTO(Reserva reserva) {
+        return ReflectionTestUtils.invokeMethod(
+                reservaService,
+                "convertirADTO",
+                reserva
+        );
+    }
 
     @BeforeEach
     void setup() {
@@ -145,4 +154,50 @@ class ReservaServiceTest {
         assertThrows(IllegalArgumentException.class,
                 () -> reservaService.eliminarReserva(100));
     }
+
+    // Nuevos tests para cobertura adicional
+    @Test
+    void convertirADTO_maquinariaYUsuarioPresentes() {
+        Maquinaria maquinaria = new Maquinaria();
+        maquinaria.setId(1);
+        maquinaria.setTipo("Tractor");
+        maquinaria.setMarca("John Deere");
+
+        Usuario usuario = new Usuario();
+        usuario.setId(10);
+        usuario.setNombre("Juan");
+
+        Reserva reserva = new Reserva();
+        reserva.setId(100);
+        reserva.setMaquinaria(maquinaria);
+        reserva.setUsuario(usuario);
+        reserva.setFecha_reserva(java.sql.Date.valueOf(LocalDate.now()));
+
+        ReservaDTO dto = invokeConvertirADTO(reserva);
+
+        assertEquals(100, dto.getId());
+        assertEquals(1, dto.getMaquinariaId());
+        assertEquals("Tractor", dto.getMaquinariaTipo());
+        assertEquals("John Deere", dto.getMaquinariaMarca());
+        assertEquals(10, dto.getUsuarioId());
+        assertEquals("Juan", dto.getUsuarioNombre());
+    }
+
+    @Test
+    void convertirADTO_maquinariaYUsuarioNull() {
+        Reserva reserva = new Reserva();
+        reserva.setId(200);
+        reserva.setFecha_reserva(java.sql.Date.valueOf(LocalDate.now()));
+
+        ReservaDTO dto = invokeConvertirADTO(reserva);
+
+        assertEquals(200, dto.getId());
+        assertNull(dto.getMaquinariaId());
+        assertNull(dto.getMaquinariaTipo());
+        assertNull(dto.getMaquinariaMarca());
+        assertNull(dto.getUsuarioId());
+        assertNull(dto.getUsuarioNombre());
+    }
+
+
 }

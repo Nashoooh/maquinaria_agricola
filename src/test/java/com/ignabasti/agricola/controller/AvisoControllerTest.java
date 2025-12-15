@@ -12,6 +12,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.contains;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
 
 class AvisoControllerTest {
@@ -66,6 +71,21 @@ class AvisoControllerTest {
         doThrow(new RuntimeException("Fallo")).when(avisoService).publicarAviso(any(AvisoDTO.class));
         String view = avisoController.publicarAviso(1, true, model);
         verify(model).addAttribute(eq("error"), contains("Fallo"));
+        verify(model).addAttribute("maquinarias", lista);
+        assertEquals("maquinaria_avisos", view);
+    }
+
+    @Test
+    void publicarAviso_sinDestacado_debeAsignarFalse() {
+        List<MaquinariaDTO> lista = List.of(
+                MaquinariaDTO.builder().tipo("Tractor").build()
+        );
+        when(maquinariaService.obtenerTodasLasMaquinarias()).thenReturn(lista);
+        String view = avisoController.publicarAviso(1, null, model);
+        verify(avisoService).publicarAviso(argThat(aviso ->
+                aviso.getDestacado() != null && !aviso.getDestacado()
+        ));
+        verify(model).addAttribute(eq("exito"), anyString());
         verify(model).addAttribute("maquinarias", lista);
         assertEquals("maquinaria_avisos", view);
     }

@@ -14,8 +14,9 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -83,5 +84,25 @@ class RegistroControllerTest {
                 .andExpect(model().attribute("error", "Error al registrar usuario: Fallo BD"));
 
         verify(usuarioService).registrarUsuario(any(UsuarioDTO.class));
+    }
+
+    @Test
+    void registrarUsuario_exitoso_cubreBloqueRojo() {
+        UsuarioService usuarioService = mock(UsuarioService.class);
+        Model model = mock(Model.class);
+        RegistroController controller = new RegistroController(usuarioService);
+        when(usuarioService.existePorCorreo("nuevo@mail.com")).thenReturn(false);
+        String view = controller.registrarUsuarioDesdeRegistro(
+                "Nuevo",
+                "nuevo@mail.com",
+                "123456",
+                model
+        );
+        verify(usuarioService).registrarUsuario(any(UsuarioDTO.class));
+        verify(model).addAttribute(
+                eq("exito"),
+                eq("Usuario registrado correctamente. Ahora puedes iniciar sesión.")
+        );
+        assertEquals("registro", view);
     }
 }

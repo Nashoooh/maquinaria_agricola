@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -25,7 +24,7 @@ public class MaquinariaService {
     public List<MaquinariaDTO> obtenerTodasLasMaquinarias() {
         return maquinariaRepository.findAll().stream()
                 .map(this::convertirADTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional(readOnly = true)
@@ -42,30 +41,30 @@ public class MaquinariaService {
         if (tipo != null && !tipo.isEmpty()) {
             maquinarias = maquinarias.stream()
                     .filter(m -> m.getTipo().equalsIgnoreCase(tipo))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         
         if (ubicacion != null && !ubicacion.isEmpty()) {
             maquinarias = maquinarias.stream()
                     .filter(m -> m.getUbicacion() != null && m.getUbicacion().toLowerCase().contains(ubicacion.toLowerCase()))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         
         if (fecha != null && !fecha.isEmpty()) {
             maquinarias = maquinarias.stream()
                     .filter(m -> m.getFecha_disponible() != null && m.getFecha_disponible().toString().equals(fecha))
-                    .collect(Collectors.toList());
+                    .toList();
         }
         
         if (precioMaximo != null) {
             maquinarias = maquinarias.stream()
                     .filter(m -> m.getPrecio() != null && m.getPrecio() <= precioMaximo)
-                    .collect(Collectors.toList());
+                    .toList();
         }
         
         return maquinarias.stream()
                 .map(this::convertirADTO)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     @Transactional

@@ -1,0 +1,24 @@
+# sonar.projectKey=agricola
+# sonar.projectName=agricola
+
+# sonar.host.url=http://localhost:9000
+
+# Lenguaje
+sonar.language=java
+sonar.sourceEncoding=UTF-8
+
+# Código
+sonar.sources=src/main/java
+sonar.tests=src/test/java
+
+# Coverage (ESTO ES LO IMPORTANTE)
+sonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
+
+# Excluir clases que no aportan coverage
+sonar.exclusions=**/dto/**,**/model/**,**/config/**,**/*Application.java
+
+# Tests
+sonar.junit.reportPaths=target/surefire-reports
+
+
+# sqp_b0324bf66f6ab1e827553697c1d6ea1c75347c8b

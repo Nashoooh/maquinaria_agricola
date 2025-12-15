@@ -17,6 +17,7 @@ import java.util.List;
 public class MaquinariaController {
 
     private final MaquinariaService maquinariaService;
+    private static final String VISTA_REGISTRAR = "maquinaria_registrar";
 
     @GetMapping("/maquinaria/buscar")
     public String buscarMaquinaria(@RequestParam(required = false) String tipo,
@@ -31,7 +32,7 @@ public class MaquinariaController {
 
     @GetMapping("/maquinaria/registrar")
     public String mostrarFormularioRegistro() {
-        return "maquinaria_registrar";
+        return VISTA_REGISTRAR;
     }
 
     @PostMapping("/maquinaria/registrar")
@@ -67,10 +68,10 @@ public class MaquinariaController {
             return "redirect:/maquinaria/buscar";
         } catch (SecurityException e) {
             model.addAttribute("error", "Debe estar autenticado para registrar maquinaria");
-            return "maquinaria_registrar";
+            return VISTA_REGISTRAR;
         } catch (Exception e) {
             model.addAttribute("error", "Error al registrar maquinaria: " + e.getMessage());
-            return "maquinaria_registrar";
+            return VISTA_REGISTRAR;
         }
     }
 }
